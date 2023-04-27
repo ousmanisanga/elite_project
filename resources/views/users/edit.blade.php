@@ -28,25 +28,22 @@
 
     <div class="form-group mb-3">
 
-        <label for="name">Nom:</label>
-        <input type="text" class="form-control" id="name" placeholder="Entrer Nom" name="name"
-            value="{{ $user->name }}">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" placeholder="Entrer Nom" name="name" value="{{ $user->name }}">
 
     </div>
 
     <div class="form-group mb-3">
 
         <label for="email">Email:</label>
-        <input type="text" class="form-control" id="email" placeholder="Entrer Email" name="email"
-            value="{{ $user->email }}">
+        <input type="text" class="form-control" id="email" placeholder="Entrer Email" name="email" value="{{ $user->email }}">
 
     </div>
 
     <div class="form-group mb-3">
 
         <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" placeholder="Entrer le mot de passe" name="password"
-            value="{{ $user->password }}">
+        <input type="password" class="form-control" id="password" placeholder="Entrer le mot de passe" name="password" value="{{ $user->password }}">
 
     </div>
 

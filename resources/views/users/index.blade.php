@@ -1,7 +1,7 @@
 @extends('layouts.app')
-@yield('content_users')
 
-@section('content_users')
+
+@section('content')
 
 <div class="row">
 
@@ -42,10 +42,10 @@
 
     </tr>
 
-    @foreach ($users as $index => $user)
+    @foreach ($users as $key => $user)
 
     <tr>
-        <td>{{ $index }}</td>
+        <td>{{++$key}}</td>
         <td>{{ $user->name }}</td>
         <td>{{ $user->email }}</td>
         <td>{{ $user->password }}</td>

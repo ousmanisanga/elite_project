@@ -46,9 +46,9 @@ class UserController extends Controller
         ]);
 
         $user = new User([
-            'namelogo_elite.png' => $request->get('nom'),
+            'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'password' => $request->get('password'),
+            'password' =>bcrypt( $request->get('password')),
             'role' => $request->get('role')
 
         ]);
@@ -104,14 +104,14 @@ class UserController extends Controller
 
 
 
-        $user->name = $request->get('nom');
+        $user->name = $request->get('name');
         $user->email = $request->get('email');
         $user->password = $request->get('password');
         $user->role = $request->get('role');
 
 
 
-        $user->update();
+    $user->update();
 
         return redirect('/')->with('success', 'contact Modifié avec succès');
     }
@@ -127,6 +127,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $user->delete($id);
-        return redirect('/')->with('Succès l\'ultisateur a bien été supprimer');
+        return redirect('/')->with('Success', 'l\'ultisateur a bien été supprimer');
     }
 }
