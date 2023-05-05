@@ -7,120 +7,66 @@ use Illuminate\Http\Request;
 
 class SousNavBarController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $sousnavbars = SousNavBar::All();
+        $sousnavbars = SousNavBar::all();
 
         return view('sousnavbars.index', compact('sousnavbars'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('sousnavbars.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required',
-            'navbar_id'=> 'required'
-
-
+            'navbar_id' => 'required'
         ]);
 
-        $sousnavbar = new SousNavBar([
-            'title' => $request->get('title'),
-            'navbar_id' => $request->get('navbar_id')
-
-
-        ]);
-
-
+        $sousnavbar = new SousNavBar();
+        $sousnavbar->title = $request->input('title');
+        $sousnavbar->navbar_id = $request->input('navbar_id');
         $sousnavbar->save();
-        return redirect('/')
+
+        return redirect()->route('sousnavbars.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\SousNavBar  $sousNavBar
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $sousnavbar = SousNavBar::findOrFail($id);
         return view('sousnavbars.show', compact('sousnavbar'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\SousNavBar  $sousNavBar
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $sousnavbar = SousNavBar::findOrFail($id);
-        return view('sousnavbars.edit');
+        return view('sousnavbars.edit', compact('sousnavbar'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SousNavBar  $sousNavBar
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-
         $sousnavbar = SousNavBar::findOrFail($id);
 
         $request->validate([
             'title' => 'required',
-            'navbar_id' => 'required',
-
-
-
+            'navbar_id' => 'required'
         ]);
 
-        $sousnavbar->title = $request->get('tilte');
-        $sousnavbar->navbar_id = $request->get('navbar_id');
+        $sousnavbar->title = $request->input('title');
+        $sousnavbar->navbar_id = $request->input('navbar_id');
+        $sousnavbar->save();
 
-
-        $sousnavbar->update();
-
-        return redirect('/');
-
+        return redirect()->route('sousnavbars.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\SousNavBar  $sousNavBar
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy( $id)
+    public function destroy($id)
     {
         $sousnavbar = SousNavBar::findOrFail($id);
+        $sousnavbar->delete();
 
-        $sousnavbar->delete($id);
-        return redirect('/');
+        return redirect()->route('sousnavbars.index');
     }
 }

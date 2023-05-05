@@ -15,15 +15,11 @@ class SectionController extends Controller
 
 
 
-    protected $validation = [
-        'content'     => 'required|string',
-        'image'   => 'required|image',
-        'description' => 'required|string|max:200',
-        'title'       => 'required|string|max:200'
-    ];
+
     public function index()
     {
-        $sections = Section::all('');
+        $sections = Section::all();
+        return view('sections.index', compact('sections'));
     }
 
     /**
@@ -33,7 +29,7 @@ class SectionController extends Controller
      */
     public function create()
     {
-        //
+        return view('sections.create');
     }
 
     /**
@@ -44,7 +40,26 @@ class SectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'content'     => 'required|string',
+            'image'   => 'required|string',
+            'description' => 'required|string|max:200',
+            'title'       => 'required|string|max:200'
+        ]);
+
+
+        $section = new Section([
+            'title' => $request->get('title'),
+            'description' => $request->get('description'),
+            'image'=> $request->get('image'),
+            'content' => $request->get('content')
+
+        ]);
+
+
+        $section->save();
+
+        return redirect('/');
     }
 
     /**
@@ -55,7 +70,9 @@ class SectionController extends Controller
      */
     public function show(Section $section)
     {
-        //
+        $section = Section::findOrFail($section);
+        return view('sections.show', compact('section'));
+
     }
 
     /**
@@ -66,7 +83,8 @@ class SectionController extends Controller
      */
     public function edit(Section $section)
     {
-        //
+        $section = Section::findOrFail($section);
+        return view('sections.edit', compact('section'));
     }
 
     /**
@@ -78,7 +96,26 @@ class SectionController extends Controller
      */
     public function update(Request $request, Section $section)
     {
-        //
+        $section = Section::findOrFail($section);
+
+        $request->validate([
+            'title'> 'required',
+            'description' => 'required',
+            'image' => 'required',
+            'content' => 'required',
+
+
+        ]);
+
+
+
+        $section->title = $request->get('title');
+        $section->description = $request->get('description');
+        $section->image = $request->get('image');
+        $section->content= $request->get('content');
+
+        $section->DB::update('update users set votes = 100 where name = ?', ['John']);
+
     }
 
     /**
@@ -89,6 +126,8 @@ class SectionController extends Controller
      */
     public function destroy(Section $section)
     {
-        //
+        $section = Section::findOrFail($section);
+        $section->delete($section);
+        return redirect('/');
     }
 }

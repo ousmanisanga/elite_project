@@ -1,0 +1,25 @@
+private function createProgramme($jour, $horaire, $user)
+{
+    return Programme::firstOrNew([
+        'horaire_id' => $horaire,
+        'jour_de_la_semaine_id' => $jour,
+    ])->fill(['user_id' => $user->id])->save();
+}
+
+
+public function genererProgramme()
+{
+    $horaires = ['7h00-14h00', '14h-19h30', '19h30-7h00'];
+    $joursDeLaSemaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    $users = User::all();
+    $nbUsers = count($users);
+
+    foreach ($joursDeLaSemaine as $jour) {
+        for ($i = 0; $i < count($horaires); $i++) {
+            $user = $users[$i % $nbUsers];
+            $horaire = $horaires[$i];
+
+            $this->createProgramme($jour, $horaire, $user);
+        }
+    }
+}
